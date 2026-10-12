@@ -4,7 +4,7 @@ open Verso Genre Blog
 
 #doc (Page) "Lean Bugs" =>
 
-A curated corpus of bugs in the Lean theorem prover, with an emphasis on the ones that matter for
+A corpus of bugs in the Lean theorem prover, with an emphasis on the ones that matter for
 trust: proofs of `False`, statements that don't say what their source says, and checkers that
 can be fooled.
 

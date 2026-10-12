@@ -1,6 +1,6 @@
 # leanbugs
 
-A curated corpus of bugs in the Lean theorem prover, published at
+A corpus of bugs in the Lean theorem prover, published at
 [leanbugs.com](https://leanbugs.com). Each bug is classified by which guarantee of the trusted
 pipeline it breaks, how it got in, and which checkers it gets past.
 
