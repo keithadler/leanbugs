@@ -76,7 +76,7 @@ def Bug.reproHtml (b : Bug) : Html :=
         {{source}} " "
         {{linkTo file s!"{repoUrl}/blob/main/{file}"}}
       </p>
-      <pre class="repro"><code class="language-lean">{{txt code.trimRight}}</code></pre>
+      <pre class="repro"><code class="language-lean">{{txt code.trimAsciiEnd.toString}}</code></pre>
     }}
 
 /-- The page for one bug. -/
