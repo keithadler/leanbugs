@@ -1,0 +1,22 @@
+{
+  "id": "lean-0001",
+  "title": "Kernel accepts wrong-structure projections, allowing an axiom-free proof of False",
+  "summary": "A soundness bug in the kernel's handling of nested inductive types: when phantom parameters were dropped from the generated auxiliary type, an ill-typed argument let the kernel accept a proof of False with no axioms. Reachable only through metaprogramming that sends inductive declarations directly to the kernel.",
+  "status": "fixed",
+  "subsystem": "kernel",
+  "guarantee-broken": ["kernel-soundness"],
+  "mechanism": ["kernel-internal"],
+  "symptom": "proves-False",
+  "severity": "unsoundness",
+  "issue": "https://github.com/leanprover/lean4/issues/14576",
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/14577",
+    "https://github.com/leanprover/lean4/pull/14582"
+  ],
+  "zulip": "https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/Counterexample.20to.20the.20Lean.20Conjecture.20.28Soundness.20Bug.29",
+  "fools": ["kernel"],
+  "features": ["nested-inductive", "metaprogramming"],
+  "links": [
+    {"label": "Postmortem (Leo de Moura)", "url": "https://leodemoura.github.io/blog/2026-8-1-postmortem-for-kernel-soundness-bug-14576/"}
+  ]
+}

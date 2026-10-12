@@ -1,0 +1,17 @@
+{
+  "id": "lean-0002",
+  "title": "Kernel is_def_eq cache depended on the order of checks",
+  "summary": "The kernel's definitional-equality cache gave answers that depended on the order in which checks ran, which was enough to get bogus proofs accepted. Found in the Lean FRO's bug hunt after lean-0001; nanoda and ind-models both rejected the bogus proofs.",
+  "status": "fixed",
+  "subsystem": "kernel",
+  "guarantee-broken": ["kernel-soundness"],
+  "mechanism": ["kernel-internal"],
+  "symptom": "proves-False",
+  "severity": "unsoundness",
+  "fix-prs": ["https://github.com/leanprover/lean4/pull/14806"],
+  "fools": ["kernel"],
+  "discovery": ["fro-bug-hunt"],
+  "links": [
+    {"label": "Bug hunt postmortem (Leo de Moura)", "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"}
+  ]
+}
