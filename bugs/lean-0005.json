@@ -1,0 +1,23 @@
+{
+  "id": "lean-0005",
+  "title": "Substring comparison is not reflexive on malformed UTF-8",
+  "summary": "Substring == returned false when comparing a substring with itself if its positions were not valid UTF-8. Expr contains Substring transitively (through metadata and Syntax), and ExprMap is a HashMap, so non-reflexive equality on Substring undermines Expr-keyed maps. Found by the Lean4Lean verification.",
+  "status": "fixed",
+  "subsystem": "core-library",
+  "severity": "wrong-result",
+  "symptom": "wrong-result",
+  "issue": "https://github.com/leanprover/lean4/issues/10511",
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/10552"
+  ],
+  "fixed-in": "v4.25.0",
+  "discovery": [
+    "Lean4Lean-formalization"
+  ],
+  "links": [
+    {
+      "label": "Lean4Lean bugs-found.md",
+      "url": "https://github.com/digama0/lean4lean/blob/master/bugs-found.md"
+    }
+  ]
+}

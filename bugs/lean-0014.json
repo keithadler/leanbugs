@@ -1,0 +1,36 @@
+{
+  "id": "lean-0014",
+  "title": "Kernel rejected a valid inductive predicate (universe normalization)",
+  "summary": "The kernel decided whether an inductive is a predicate without normalizing universe levels first, so it rejected a valid inductive declaration.",
+  "status": "fixed",
+  "subsystem": "kernel",
+  "severity": "wrong-result",
+  "guarantee-broken": [
+    "kernel-completeness"
+  ],
+  "mechanism": [
+    "kernel-internal"
+  ],
+  "symptom": "rejects-valid",
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/14615"
+  ],
+  "fixed-in": "v4.34.0",
+  "discovery": [
+    "fro-bug-hunt",
+    "ai-assisted"
+  ],
+  "features": [
+    "universe-levels"
+  ],
+  "links": [
+    {
+      "label": "Postmortem for #14576 (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-1-postmortem-for-kernel-soundness-bug-14576/"
+    },
+    {
+      "label": "Bug hunt postmortem (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
+    }
+  ]
+}

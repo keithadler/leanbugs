@@ -1,0 +1,33 @@
+{
+  "id": "lean-0012",
+  "title": "Universe parameters not checked in mutual definitions",
+  "summary": "The kernel did not check universe parameters in mutual definitions. A bug, but not a soundness bug, per the FRO's bug hunt postmortem.",
+  "status": "fixed",
+  "subsystem": "kernel",
+  "severity": "hardening",
+  "mechanism": [
+    "kernel-internal"
+  ],
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/14608"
+  ],
+  "fixed-in": "v4.34.0",
+  "discovery": [
+    "fro-bug-hunt",
+    "ai-assisted"
+  ],
+  "features": [
+    "mutual-defs",
+    "universe-levels"
+  ],
+  "links": [
+    {
+      "label": "Postmortem for #14576 (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-1-postmortem-for-kernel-soundness-bug-14576/"
+    },
+    {
+      "label": "Bug hunt postmortem (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
+    }
+  ]
+}

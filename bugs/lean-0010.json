@@ -1,0 +1,27 @@
+{
+  "id": "lean-0010",
+  "title": "Linux release builds linked GMP 6.1.2, which has an exploitable bug",
+  "summary": "Lean's Linux CI built against GMP 6.1.2, which has an exploitable bug; the fix requires GMP 6.3.0. Not a bug in Lean's own source. Listed among the runtime soundness bugs in the FRO's bug hunt; see also lean-0015.",
+  "status": "fixed",
+  "subsystem": "build",
+  "severity": "unsoundness",
+  "guarantee-broken": [
+    "compiler-soundness"
+  ],
+  "mechanism": [
+    "dependency"
+  ],
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/14833"
+  ],
+  "fixed-in": "v4.35.0-rc1",
+  "discovery": [
+    "fro-bug-hunt"
+  ],
+  "links": [
+    {
+      "label": "Bug hunt postmortem (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
+    }
+  ]
+}

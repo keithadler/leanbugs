@@ -1,0 +1,32 @@
+{
+  "id": "lean-0008",
+  "title": "Kernel is_prop check did not require a sort",
+  "summary": "The kernel function deciding whether a type is a proposition did not require it to be a sort, which let a bogus proof through. The same fix was later applied to inductive.h. nanoda also accepted the bogus proof; lean4lean already required a sort and was not affected; ind-models rejected it.",
+  "status": "fixed",
+  "subsystem": "kernel",
+  "severity": "unsoundness",
+  "guarantee-broken": [
+    "kernel-soundness"
+  ],
+  "mechanism": [
+    "kernel-internal"
+  ],
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/14807",
+    "https://github.com/leanprover/lean4/pull/14843"
+  ],
+  "fixed-in": "v4.35.0-rc1",
+  "fools": [
+    "kernel",
+    "nanoda"
+  ],
+  "discovery": [
+    "fro-bug-hunt"
+  ],
+  "links": [
+    {
+      "label": "Bug hunt postmortem (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
+    }
+  ]
+}

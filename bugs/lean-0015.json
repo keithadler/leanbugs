@@ -1,0 +1,21 @@
+{
+  "id": "lean-0015",
+  "title": "Kernel did not bound the size of Nat numerals it computes",
+  "summary": "The kernel computed Nat numerals of unbounded size. Hardening added after an exploit in the FRO's bug hunt built a multi-gigabyte numeral using the GMP 6.1.2 bug (lean-0010).",
+  "status": "fixed",
+  "subsystem": "kernel",
+  "severity": "hardening",
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/14849"
+  ],
+  "fixed-in": "v4.35.0-rc1",
+  "discovery": [
+    "fro-bug-hunt"
+  ],
+  "links": [
+    {
+      "label": "Bug hunt postmortem (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
+    }
+  ]
+}

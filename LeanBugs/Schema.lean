@@ -23,11 +23,11 @@ def statuses : List String :=
 
 def subsystems : List String :=
   ["parser", "elaborator", "typeclass", "unifier", "tactic", "simp", "grind",
-   "kernel", "code-gen", "runtime", "lake", "lsp", "server", "build"]
+   "kernel", "code-gen", "runtime", "core-library", "lake", "lsp", "server", "build"]
 
 def guarantees : List String :=
   [ "kernel-soundness"         -- the kernel accepts an ill-typed `Expr`
-  , "compiler-soundness"       -- compiled code disagrees with the logical definition
+  , "compiler-soundness"       -- compiled code or the runtime disagrees with the logic
   , "elaborator-faithfulness"  -- a well-typed `Expr`, but not what the source said
   , "environment-injection"    -- an `Expr` bypasses the kernel or elaborator
   , "reporting-faithfulness"   -- `#print axioms`, the pretty-printer or a checker describes it wrong
@@ -41,10 +41,10 @@ def mechanisms : List String :=
 
 def symptoms : List String :=
   ["proves-False", "wrong-elaboration", "infinite-loop", "oom", "crash", "bad-error-message",
-   "perf-regression", "ide-hang", "rejects-valid"]
+   "perf-regression", "ide-hang", "rejects-valid", "wrong-result"]
 
 def severities : List String :=
-  ["unsoundness", "wrong-result", "crash", "perf", "ux"]
+  ["unsoundness", "wrong-result", "crash", "perf", "ux", "hardening"]
 
 def checkers : List String :=
   ["kernel", "lean4checker", "lean4lean", "nanoda", "ind-models", "con-leche", "SafeVerify",
@@ -70,9 +70,10 @@ structure Bug where
   summary : String
   status : String
   subsystem : String
-  guaranteeBroken : Array String
-  symptom : String
   severity : String
+  /-- Empty when the bug breaks none of the pipeline's guarantees (a missing check, say). -/
+  guaranteeBroken : Array String := #[]
+  symptom : Option String := none
   issue : Option String := none
   fixPrs : Array String := #[]
   fixedIn : Option String := none
@@ -85,7 +86,7 @@ structure Bug where
 deriving Inhabited, Repr
 
 def knownKeys : List String :=
-  ["id", "title", "summary", "status", "subsystem", "guarantee-broken", "symptom", "severity",
+  ["id", "title", "summary", "status", "subsystem", "severity", "guarantee-broken", "symptom",
    "issue", "fix-prs", "fixed-in", "zulip", "mechanism", "fools", "discovery", "features", "links"]
 
 private def optField [FromJson α] (j : Json) (k : String) : Except String (Option α) :=
@@ -113,9 +114,9 @@ instance : FromJson Bug where
     summary := ← reqField j "summary"
     status := ← reqField j "status"
     subsystem := ← reqField j "subsystem"
-    guaranteeBroken := ← reqField j "guarantee-broken"
-    symptom := ← reqField j "symptom"
     severity := ← reqField j "severity"
+    guaranteeBroken := ← arrField j "guarantee-broken"
+    symptom := ← optField j "symptom"
     issue := ← optField j "issue"
     fixPrs := ← arrField j "fix-prs"
     fixedIn := ← optField j "fixed-in"
@@ -146,12 +147,10 @@ def Bug.problems (b : Bug) (fileStem : String) : Array String := Id.run do
     errs := errs.push s!"`id` is `{b.id}` but the file is `{fileStem}.json`"
   unless b.id.startsWith "lean-" && (b.id.drop 5).all Char.isDigit && b.id.length == 9 do
     errs := errs.push s!"`id` must look like `lean-0001`, not `{b.id}`"
-  if b.guaranteeBroken.isEmpty then
-    errs := errs.push "`guarantee-broken` must name at least one guarantee"
   errs := errs ++ checkOne "status" statuses b.status
     ++ checkOne "subsystem" subsystems b.subsystem
     ++ checkAll "guarantee-broken" guarantees b.guaranteeBroken
-    ++ checkOne "symptom" symptoms b.symptom
+    ++ checkAll "symptom" symptoms b.symptom.toArray
     ++ checkOne "severity" severities b.severity
     ++ checkAll "mechanism" mechanisms b.mechanism
     ++ checkAll "fools" checkers b.fools

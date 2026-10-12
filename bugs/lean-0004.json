@@ -1,0 +1,26 @@
+{
+  "id": "lean-0004",
+  "title": "Kernel infer_let ignores dependencies in let-binding types",
+  "summary": "The kernel's infer_let decides which variables to abstract in the result type without accounting for dependencies in the type of a let binding, so inferType/check can return an expression with a loose free variable and a second check on it fails. The second kernel bug found by the Lean4Lean verification; the reporter did not find an exploit.",
+  "status": "fixed",
+  "subsystem": "kernel",
+  "severity": "wrong-result",
+  "mechanism": [
+    "kernel-internal"
+  ],
+  "symptom": "wrong-result",
+  "issue": "https://github.com/leanprover/lean4/issues/10475",
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/10476"
+  ],
+  "fixed-in": "v4.25.0",
+  "discovery": [
+    "Lean4Lean-formalization"
+  ],
+  "links": [
+    {
+      "label": "Lean4Lean bugs-found.md",
+      "url": "https://github.com/digama0/lean4lean/blob/master/bugs-found.md"
+    }
+  ]
+}

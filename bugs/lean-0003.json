@@ -4,8 +4,13 @@
   "summary": "For a one-byte slice at a huge position, the logical definition of String.Pos.Raw.extract returns the empty string while the compiled code returns the whole string. With native_decide the two can be played against each other to prove False, and Trail of Bits used this for a 'proof' of Fermat's Last Theorem. Not a kernel bug: #print axioms shows the native_decide axiom, so only proofs that trust the compiler are affected. A use-after-free in the same function was fixed separately. Affects stable Lean up to 4.33.1.",
   "status": "fixed",
   "subsystem": "runtime",
-  "guarantee-broken": ["compiler-soundness"],
-  "mechanism": ["native-decide-quirk", "memory-safety"],
+  "guarantee-broken": [
+    "compiler-soundness"
+  ],
+  "mechanism": [
+    "native-decide-quirk",
+    "memory-safety"
+  ],
   "symptom": "proves-False",
   "severity": "unsoundness",
   "issue": "https://github.com/leanprover/lean4/issues/14684",
@@ -13,10 +18,18 @@
     "https://github.com/leanprover/lean4/pull/14687",
     "https://github.com/leanprover/lean4/pull/14717"
   ],
-  "fixed-in": "v4.34.0-rc1",
-  "discovery": ["external-security-research", "ai-assisted"],
-  "features": ["native_decide"],
+  "fixed-in": "v4.34.0",
+  "discovery": [
+    "external-security-research",
+    "ai-assisted"
+  ],
+  "features": [
+    "native_decide"
+  ],
   "links": [
-    {"label": "Trail of Bits write-up", "url": "https://blog.trailofbits.com/2026/09/09/a-proof-of-fermats-last-theorem-that-fits-the-margin/"}
+    {
+      "label": "Trail of Bits write-up",
+      "url": "https://blog.trailofbits.com/2026/09/09/a-proof-of-fermats-last-theorem-that-fits-the-margin/"
+    }
   ]
 }

@@ -1,0 +1,6 @@
+leanbugs
+Copyright 2026 The leanbugs contributors
+
+The page template (LeanBugs/Theme.lean) and the files in static/ are adapted from
+leanprover/lean-eval-leaderboard, Copyright 2026 Lean FRO, LLC, licensed under the
+Apache License, Version 2.0. Each adapted file says what was changed.

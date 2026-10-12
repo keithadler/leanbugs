@@ -1,0 +1,29 @@
+{
+  "id": "lean-0011",
+  "title": "Missing metavariable and free-variable checks in inductive.cpp",
+  "summary": "inductive.cpp was missing check_no_metavar_no_fvar checks. Caught while exporting an exploit during the FRO's bug hunt; not a soundness bug on its own.",
+  "status": "fixed",
+  "subsystem": "kernel",
+  "severity": "hardening",
+  "mechanism": [
+    "kernel-internal"
+  ],
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/14607"
+  ],
+  "fixed-in": "v4.34.0",
+  "discovery": [
+    "fro-bug-hunt",
+    "ai-assisted"
+  ],
+  "links": [
+    {
+      "label": "Postmortem for #14576 (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-1-postmortem-for-kernel-soundness-bug-14576/"
+    },
+    {
+      "label": "Bug hunt postmortem (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
+    }
+  ]
+}

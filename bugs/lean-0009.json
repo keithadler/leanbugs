@@ -1,0 +1,27 @@
+{
+  "id": "lean-0009",
+  "title": "Reference count overflow corrupted runtime objects",
+  "summary": "A wrapping reference counter in the runtime could corrupt object state. The fix freezes an object whose count overflows so it is never freed, the 'sticky' approach from Koka. Listed among the runtime soundness bugs in the FRO's bug hunt.",
+  "status": "fixed",
+  "subsystem": "runtime",
+  "severity": "unsoundness",
+  "guarantee-broken": [
+    "compiler-soundness"
+  ],
+  "mechanism": [
+    "memory-safety"
+  ],
+  "fix-prs": [
+    "https://github.com/leanprover/lean4/pull/14838"
+  ],
+  "fixed-in": "v4.35.0-rc1",
+  "discovery": [
+    "fro-bug-hunt"
+  ],
+  "links": [
+    {
+      "label": "Bug hunt postmortem (Leo de Moura)",
+      "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
+    }
+  ]
+}

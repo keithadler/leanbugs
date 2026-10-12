@@ -34,13 +34,16 @@ every entry against the schema and fails on unknown fields or values, so CI tell
 }
 ```
 
-The first eight fields are required; the rest are optional. Leave a field out rather than guess.
-The allowed values for each field are listed in [`LeanBugs/Schema.lean`](LeanBugs/Schema.lean).
+`id`, `title`, `summary`, `status`, `subsystem` and `severity` are required; the rest are
+optional. Leave a field out rather than guess. A bug that breaks no guarantee, such as a missing
+check, has no `guarantee-broken`.
+`fixed-in` is the first stable release with the fix, or the release candidate if no stable
+release has it yet. The allowed values for each field are listed in [`LeanBugs/Schema.lean`](LeanBugs/Schema.lean).
 
 The two axes people most often mix up:
 
 - **`guarantee-broken`** is *which promise fails*: `kernel-soundness` (the kernel accepts an
-  ill-typed term), `compiler-soundness` (compiled code disagrees with the logical definition, which
+  ill-typed term), `compiler-soundness` (compiled code or the runtime disagrees with the logic, which
   matters to proofs that use `native_decide`), `elaborator-faithfulness` (the term is fine but isn't
   what the source said), `environment-injection` (a term skips the kernel or elaborator),
   `reporting-faithfulness` (`#print axioms`, the pretty-printer or a checker describes the

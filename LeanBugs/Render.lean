@@ -15,9 +15,10 @@ namespace LeanBugs
 
 private def txt (s : String) : Html := .text true s
 
+/-- Tags, styled like lean-eval's problem tags. -/
 private def chips (vs : Array String) : Html :=
   if vs.isEmpty then txt "—" else
-  .seq <| vs.map fun v => {{ <span class="chip">{{txt v}}</span> }}
+  {{ <div class="lifecycle-tag-list">{{vs.map fun v => {{ <span class="lifecycle-tag">{{txt v}}</span> }}}}</div> }}
 
 private def linkTo (label url : String) : Html :=
   {{ <a href={{url}}>{{txt label}}</a> }}
@@ -29,7 +30,7 @@ private def shortRef (url : String) : String :=
   | _ => url
 
 private def row (label : String) (value : Html) : Html :=
-  {{ <tr><th>{{txt label}}</th><td>{{value}}</td></tr> }}
+  {{ <tr><th scope="row">{{txt label}}</th><td>{{value}}</td></tr> }}
 
 /-- The classification table on a bug's own page. -/
 def Bug.detailHtml (b : Bug) : Html :=
@@ -41,19 +42,19 @@ def Bug.detailHtml (b : Bug) : Html :=
   let refList : Html :=
     if refs.isEmpty then txt "—" else {{ <ul class="refs">{{refs.map fun r => {{<li>{{r}}</li>}}}}</ul> }}
   {{
-    <table class="bug">
+    <div class="lifecycle-table-scroll"><table class="lifecycle-table bug-detail">
       {{row "Status" (txt b.status)}}
       {{row "Fixed in" (txt (b.fixedIn.getD "—"))}}
       {{row "Subsystem" (txt b.subsystem)}}
       {{row "Guarantee broken" (chips b.guaranteeBroken)}}
       {{row "Mechanism" (chips b.mechanism)}}
-      {{row "Symptom" (txt b.symptom)}}
+      {{row "Symptom" (txt (b.symptom.getD "—"))}}
       {{row "Severity" (txt b.severity)}}
       {{row "Fools" (chips b.fools)}}
       {{row "Discovery" (chips b.discovery)}}
       {{row "Features" (chips b.features)}}
       {{row "References" refList}}
-    </table>
+    </table></div>
   }}
 
 /-- The page for one bug. -/
@@ -65,19 +66,22 @@ def Bug.part (b : Bug) : Part Page :=
 /-- The table of all bugs on the front page. -/
 def indexHtml (bugs : Array Bug) : Html :=
   {{
-    <table class="index">
-      <thead><tr><th>"ID"</th><th>"Bug"</th><th>"Guarantee broken"</th><th>"Status"</th></tr></thead>
+    <div class="lifecycle-table-scroll"><table class="lifecycle-table">
+      <thead><tr>
+        <th scope="col">"ID"</th><th scope="col">"Bug"</th>
+        <th scope="col">"Guarantee broken"</th><th scope="col">"Status"</th>
+      </tr></thead>
       <tbody>
         {{bugs.map fun b => {{
           <tr>
-            <td><a href={{s!"bugs/{b.id}/"}}><code>{{txt b.id}}</code></a></td>
-            <td>{{txt b.title}}</td>
+            <td class="bug-id">{{txt b.id}}</td>
+            <th scope="row"><a href={{s!"bugs/{b.id}/"}}>{{txt b.title}}</a></th>
             <td>{{chips b.guaranteeBroken}}</td>
             <td>{{txt b.status}}</td>
           </tr>
         }}}}
       </tbody>
-    </table>
+    </table></div>
   }}
 
 /-- `front` with the bug table appended. -/
