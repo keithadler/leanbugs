@@ -19,5 +19,7 @@
       "label": "Lean4Lean bugs-found.md",
       "url": "https://github.com/digama0/lean4lean/blob/master/bugs-found.md"
     }
-  ]
+  ],
+  "repro-on": "v4.24.0",
+  "repro-source": "https://github.com/leanprover/lean4/issues/10511"
 }

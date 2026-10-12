@@ -1900,3 +1900,15 @@ input.tactic-toggle,
   font-family: var(--font-mono);
   white-space: nowrap;
 }
+
+.repro-note { font-size: var(--fs-sm); color: var(--color-text-light); }
+pre.repro {
+  overflow-x: auto;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-soft);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}

@@ -11,11 +11,12 @@
   "mechanism": [
     "kernel-internal"
   ],
+  "symptom": "proves-False",
   "fix-prs": [
     "https://github.com/leanprover/lean4/pull/14807",
     "https://github.com/leanprover/lean4/pull/14843"
   ],
-  "fixed-in": "v4.35.0-rc1",
+  "fixed-in": "v4.33.1",
   "fools": [
     "kernel",
     "nanoda"
@@ -28,5 +29,7 @@
       "label": "Bug hunt postmortem (Leo de Moura)",
       "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
     }
-  ]
+  ],
+  "repro-on": "v4.33.0",
+  "repro-source": "https://github.com/leanprover/lean4/blob/7412bc4c852c9a9fafa69b67a11e4bf9f5dcbc24/tests/elab/kernel_is_prop_ensure_sort.lean"
 }

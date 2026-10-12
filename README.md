@@ -30,7 +30,9 @@ every entry against the schema and fails on unknown fields or values, so CI tell
   "fools": ["kernel"],
   "discovery": ["fro-bug-hunt"],
   "features": ["nested-inductive"],
-  "links": [{"label": "Postmortem", "url": "https://..."}]
+  "links": [{"label": "Postmortem", "url": "https://..."}],
+  "repro-on": "v4.X.Z",
+  "repro-source": "https://github.com/leanprover/lean4/issues/NNNNN"
 }
 ```
 
@@ -38,7 +40,25 @@ every entry against the schema and fails on unknown fields or values, so CI tell
 optional. Leave a field out rather than guess. A bug that breaks no guarantee, such as a missing
 check, has no `guarantee-broken`.
 `fixed-in` is the first stable release with the fix, or the release candidate if no stable
-release has it yet. The allowed values for each field are listed in [`LeanBugs/Schema.lean`](LeanBugs/Schema.lean).
+release has it yet. Fixes are often backported, so check the patch releases too, not just the
+next minor release.
+
+### Reproductions
+
+A bug can have a minimal reproduction in `bugs/lean-NNNN.lean`, shown on its page. The issue or
+the fix's regression test is usually the place to start; a regression test passes on fixed
+versions, so remove its `#guard_msgs` and keep the part that misbehaves. Start the file with a
+comment saying what happens on an affected release and what happens once it's fixed.
+
+`repro-on` is the release you ran it on and saw the bug, and it is required whenever the file
+exists. Run it there and on `fixed-in` before opening the pull request:
+
+```bash
+elan run leanprover/lean4:v4.X.Z lean bugs/lean-NNNN.lean     # shows the bug
+elan run leanprover/lean4:v4.X.Y lean bugs/lean-NNNN.lean     # fixed
+```
+
+`repro-source` says where the code came from. The allowed values for each field are listed in [`LeanBugs/Schema.lean`](LeanBugs/Schema.lean).
 
 The two axes people most often mix up:
 

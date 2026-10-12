@@ -3,8 +3,10 @@ import Lean.Data.Json
 /-!
 # The bug entry schema
 
-Each bug is one JSON file, `bugs/<id>.json`. This module parses an entry and checks it: required
-fields are present, every enum-valued field uses a known value, and no unknown keys appear. The site
+Each bug is one JSON file, `bugs/<id>.json`, optionally with a minimal reproduction next to it in
+`bugs/<id>.lean`. This module parses an entry and checks it: required fields are present, every
+enum-valued field uses a known value, no unknown keys appear, and a reproduction comes with the Lean
+version it was run on. The site
 build refuses to run if any entry fails, so a malformed entry fails CI on its pull request.
 
 The axes follow the schema sketch in the SF Lean bug-corpus notes. `guarantee-broken` is *which
@@ -83,11 +85,18 @@ structure Bug where
   discovery : Array String := #[]
   features : Array String := #[]
   links : Array Link := #[]
+  /-- The Lean release on which `bugs/<id>.lean` was run and showed the bug. -/
+  reproOn : Option String := none
+  /-- Where the reproduction came from, such as the issue or the fix's regression test. -/
+  reproSource : Option String := none
+  /-- The contents of `bugs/<id>.lean`, read from the file rather than the JSON. -/
+  repro : Option String := none
 deriving Inhabited, Repr
 
 def knownKeys : List String :=
   ["id", "title", "summary", "status", "subsystem", "severity", "guarantee-broken", "symptom",
-   "issue", "fix-prs", "fixed-in", "zulip", "mechanism", "fools", "discovery", "features", "links"]
+   "issue", "fix-prs", "fixed-in", "zulip", "mechanism", "fools", "discovery", "features", "links",
+   "repro-on", "repro-source"]
 
 private def optField [FromJson α] (j : Json) (k : String) : Except String (Option α) :=
   match j.getObjVal? k with
@@ -126,6 +135,8 @@ instance : FromJson Bug where
     discovery := ← arrField j "discovery"
     features := ← arrField j "features"
     links := ← arrField j "links"
+    reproOn := ← optField j "repro-on"
+    reproSource := ← optField j "repro-source"
   }
 
 /-! ## Validation -/
@@ -155,7 +166,13 @@ def Bug.problems (b : Bug) (fileStem : String) : Array String := Id.run do
     ++ checkAll "mechanism" mechanisms b.mechanism
     ++ checkAll "fools" checkers b.fools
     ++ checkAll "discovery" discoveries b.discovery
-  for u in [b.issue, b.zulip].filterMap (·) ++ b.fixPrs.toList ++ (b.links.map (·.url)).toList do
+  match b.reproOn, b.repro with
+  | some _, none => errs := errs.push s!"`repro-on` is set but there is no `{fileStem}.lean`"
+  | none, some _ => errs := errs.push s!"`{fileStem}.lean` exists but `repro-on` is not set"
+  | _, _ => pure ()
+  if let some v := b.reproOn then
+    unless v.startsWith "v4." do errs := errs.push s!"`repro-on` must be a release tag like `v4.33.0`, not `{v}`"
+  for u in [b.issue, b.zulip, b.reproSource].filterMap (·) ++ b.fixPrs.toList ++ (b.links.map (·.url)).toList do
     unless isUrl u do errs := errs.push s!"not a URL: `{u}`"
   return errs
 
@@ -176,6 +193,8 @@ def loadBug (path : System.FilePath) : IO (Except (Array String) Bug) := do
   match fromJson? (α := Bug) j with
   | .error e => return .error (extra.push e)
   | .ok b =>
+    let reproPath := path.withExtension "lean"
+    let b := { b with repro := ← if ← reproPath.pathExists then some <$> IO.FS.readFile reproPath else pure none }
     let errs := extra ++ b.problems stem
     return if errs.isEmpty then .ok b else .error errs
 

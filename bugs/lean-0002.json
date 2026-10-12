@@ -15,7 +15,7 @@
   "fix-prs": [
     "https://github.com/leanprover/lean4/pull/14806"
   ],
-  "fixed-in": "v4.35.0-rc1",
+  "fixed-in": "v4.33.1",
   "fools": [
     "kernel"
   ],
@@ -27,5 +27,7 @@
       "label": "Bug hunt postmortem (Leo de Moura)",
       "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
     }
-  ]
+  ],
+  "repro-on": "v4.33.0",
+  "repro-source": "https://github.com/leanprover/lean4/blob/d108aae3bf7edbaf705b71c01ddb3b264ef72c44/tests/elab/kernel_is_def_eq_equiv_manager_1.lean"
 }

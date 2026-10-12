@@ -14,7 +14,7 @@
   "fix-prs": [
     "https://github.com/leanprover/lean4/pull/14838"
   ],
-  "fixed-in": "v4.35.0-rc1",
+  "fixed-in": "v4.33.1",
   "discovery": [
     "fro-bug-hunt"
   ],

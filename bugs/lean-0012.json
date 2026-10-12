@@ -11,7 +11,7 @@
   "fix-prs": [
     "https://github.com/leanprover/lean4/pull/14608"
   ],
-  "fixed-in": "v4.34.0",
+  "fixed-in": "v4.33.0",
   "discovery": [
     "fro-bug-hunt",
     "ai-assisted"
@@ -29,5 +29,7 @@
       "label": "Bug hunt postmortem (Leo de Moura)",
       "url": "https://leodemoura.github.io/blog/2026-8-24-postmortem-for-the-kernel-soundness-bug-hunt/"
     }
-  ]
+  ],
+  "repro-on": "v4.32.1",
+  "repro-source": "https://github.com/leanprover/lean4/blob/41056da267503cb8d83577a689d3ade292aac8c6/tests/elab/mutualLevelParams.lean"
 }

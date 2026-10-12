@@ -1,5 +1,6 @@
 import VersoBlog
 import LeanBugs.Schema
+import LeanBugs.Theme
 
 /-!
 # Pages built from the entries
@@ -57,11 +58,32 @@ def Bug.detailHtml (b : Bug) : Html :=
     </table></div>
   }}
 
+/-- The reproduction from `bugs/<id>.lean`, if there is one. -/
+def Bug.reproHtml (b : Bug) : Html :=
+  match b.repro with
+  | none => .empty
+  | some code =>
+    let file := s!"bugs/{b.id}.lean"
+    let source : Html := match b.reproSource with
+      | some u =>
+        let label := if shortRef u != u then shortRef u else ((u.splitOn "/").getLast?.getD u)
+        {{ " Adapted from " {{linkTo label u}} "." }}
+      | none => .empty
+    {{
+      <h2>"Reproduction"</h2>
+      <p class="repro-note">
+        "Shows the bug on Lean " <code>{{txt (b.reproOn.getD "?")}}</code> "."
+        {{source}} " "
+        {{linkTo file s!"{repoUrl}/blob/main/{file}"}}
+      </p>
+      <pre class="repro"><code class="language-lean">{{txt code.trimRight}}</code></pre>
+    }}
+
 /-- The page for one bug. -/
 def Bug.part (b : Bug) : Part Page :=
   let title := s!"{b.id}: {b.title}"
   Part.mk #[.text title] title none
-    #[.para #[.text b.summary], .other (.blob b.detailHtml) #[]] #[]
+    #[.para #[.text b.summary], .other (.blob b.detailHtml) #[], .other (.blob b.reproHtml) #[]] #[]
 
 /-- The table of all bugs on the front page. -/
 def indexHtml (bugs : Array Bug) : Html :=

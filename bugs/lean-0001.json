@@ -17,7 +17,7 @@
     "https://github.com/leanprover/lean4/pull/14577",
     "https://github.com/leanprover/lean4/pull/14582"
   ],
-  "fixed-in": "v4.34.0",
+  "fixed-in": "v4.32.2",
   "zulip": "https://leanprover.zulipchat.com/#narrow/channel/270676-lean4/topic/Counterexample.20to.20the.20Lean.20Conjecture.20.28Soundness.20Bug.29",
   "fools": [
     "kernel"
@@ -31,5 +31,7 @@
       "label": "Postmortem (Leo de Moura)",
       "url": "https://leodemoura.github.io/blog/2026-8-1-postmortem-for-kernel-soundness-bug-14576/"
     }
-  ]
+  ],
+  "repro-on": "v4.32.1",
+  "repro-source": "https://github.com/leanprover/lean4/issues/14576"
 }

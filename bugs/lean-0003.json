@@ -31,5 +31,7 @@
       "label": "Trail of Bits write-up",
       "url": "https://blog.trailofbits.com/2026/09/09/a-proof-of-fermats-last-theorem-that-fits-the-margin/"
     }
-  ]
+  ],
+  "repro-on": "v4.33.1",
+  "repro-source": "https://github.com/leanprover/lean4/issues/14684"
 }
